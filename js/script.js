@@ -6,25 +6,34 @@ const dynamicPropertyChange = (value, istrue) => {
         document.getElementById('footer').style.position = value;
     }
 }
-
 //clear previous data...... 
 const clearData = () => {
     const mainCard = document.getElementById('main-card');
     mainCard.textContent = '';
 }
 
+//loading spinner ....
+const toggleSpinner = diplaySpiner => {
+    document.getElementById('spinner').style.display = diplaySpiner;
+}
 
 
+
+//get api data here .........
 const searchBtn = () => {
     const input = document.getElementById('input-field');
     const inputValue = input.value;
 
+    toggleSpinner('block');
     clearData();
     dynamicPropertyChange('fixed', false);
 
     //check input value is null or not
     if (inputValue == '') {
+
         dynamicPropertyChange('block', true);
+        toggleSpinner('none');
+
     } else {
         dynamicPropertyChange('none', true);
         loadPhones(inputValue);
@@ -46,11 +55,11 @@ const loadPhones = searchPhones => {
 const displayPhones = (phones) => {
     //console.log(phones.length);
     const mainCard = document.getElementById('main-card');
-
     clearData();
     //check array have items or not
     if (phones.length == 0) {
         dynamicPropertyChange('block', true);
+        toggleSpinner('none');
     } else {
         phones.forEach(phone => {
             //console.log(phone.slug);
@@ -69,6 +78,8 @@ const displayPhones = (phones) => {
             `;
             mainCard.appendChild(div);
         });
+
+        toggleSpinner('none');
         dynamicPropertyChange('relative', false);
 
     }
