@@ -53,7 +53,7 @@ const loadPhones = searchPhones => {
 
 //display phones.....
 const displayPhones = (phones) => {
-    //console.log(phones.length);
+    //console.log(phones.slice(0, 20));
     const mainCard = document.getElementById('main-card');
     clearData();
     //check array have items or not
@@ -61,10 +61,11 @@ const displayPhones = (phones) => {
         dynamicPropertyChange('block', true);
         toggleSpinner('none');
     } else {
-        phones.forEach(phone => {
+        phones.slice(0, 20).forEach(phone => {
             //console.log(phone.slug);
             //console.log(phone.phone_name);
             const div = document.createElement('div');
+
             div.className = "col-12 col-md-4 col-lg-4 col-xl-4";
             div.innerHTML = `
             <div class="card text-center m-auto shadow-lg p-3 mb-5 bg-body border-style" style="width: 18rem;">
@@ -75,9 +76,17 @@ const displayPhones = (phones) => {
                 <button onclick="moreDetails('${phone.slug}')" class="btn btn-outline-info">More Details</button>
                </div>
             </div>
+            
             `;
             mainCard.appendChild(div);
         });
+
+        const div = document.createElement('div');
+        div.className = "col-12 text-end mb-5";
+        div.innerHTML = `
+        <a class="btn btn-outline-info">See more...</a>
+        `;
+        mainCard.appendChild(div);
 
         toggleSpinner('none');
         dynamicPropertyChange('relative', false);
