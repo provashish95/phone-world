@@ -73,7 +73,7 @@ const displayPhones = (phones) => {
     } else {
         phones.slice(0, 20).forEach(phone => {
             const div = document.createElement('div');
-            div.className = "col-12 col-md-4 col-lg-4 col-xl-4";
+            div.className = "col-12 col-md-6 col-lg-4 col-xl-4";
             div.innerHTML = `
             <div class="card text-center m-auto shadow-lg p-3 mb-5 bg-body border-style" style="width: 18rem;">
                <img src="${phone.image}" class="img-fluid card-img-top" alt="Image not available">

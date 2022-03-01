@@ -36,3 +36,9 @@ body {
         width: 20em;
     }
 }
+@media only screen and (max-width: 324px){
+	/*Extra Small smartphones [275px -> 324px]*/
+    .card-width{
+        width: 15em;
+    }
+}
