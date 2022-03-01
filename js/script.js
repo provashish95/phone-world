@@ -2,14 +2,17 @@
 const dynamicPropertyChange = (value, istrue) => {
     if (istrue) {
         document.getElementById('error').style.display = value;
+        return;
     } else {
         document.getElementById('footer').style.position = value;
+        return;
     }
 }
 //clear previous data...... 
-const clearData = () => {
-    const mainCard = document.getElementById('main-card');
+const clearData = (id) => {
+    const mainCard = document.getElementById(id);
     mainCard.textContent = '';
+    return;
 }
 
 //loading spinner ....
@@ -25,8 +28,12 @@ const searchBtn = () => {
     const inputValue = input.value;
 
     toggleSpinner('block');
-    clearData();
+    clearData('main-card');
     dynamicPropertyChange('fixed', false);
+
+    const singleCard = document.getElementById('single-card');
+    //clear previous single data ....
+    singleCard.textContent = '';
 
     //check input value is null or not
     if (inputValue == '') {
@@ -55,7 +62,7 @@ const loadPhones = searchPhones => {
 const displayPhones = (phones) => {
     //console.log(phones.slice(0, 20));
     const mainCard = document.getElementById('main-card');
-    clearData();
+    clearData('main-card');
     //check array have items or not
     if (phones.length == 0) {
         dynamicPropertyChange('block', true);
@@ -100,7 +107,8 @@ const displayPhones = (phones) => {
 //2nd part start here...
 //see more details of phone by slug 
 const moreDetails = (phoneId) => {
-    console.log(phoneId);
+
+    //console.log(phoneId);
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(url)
         .then(res => res.json())
@@ -109,26 +117,43 @@ const moreDetails = (phoneId) => {
 
 //display single phone details
 const displaySinglePhone = (phoneDetails) => {
-    console.log(phoneDetails);
 
-    const singleCard = document.getElementById('single-card');
-    const div = document.createElement('div');
-    div.className = "col-12";
-    div.innerHTML = `
-    <div class="card mb-5 shadow-lg p-3 mb-5 bg-body border-style">
-    <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;" alt="image Not Available">
-    <div class="card-body mx-auto">
-            <h3 class="card-title">${phoneDetails.name ? phoneDetails.name : 'Name Not Fixed'}</h3>
-            <span>Released Date:</span><span class="text-muted"> ${phoneDetails.releaseDate ? phoneDetails.releaseDate : 'Not Available'}</span><br>
-            <span>Main Features</span><br>
-            <span class="card-text">Storage: </span><span class="text-muted"> ${phoneDetails.mainFeatures.storage ? phoneDetails.mainFeatures.storage : 'Not Available'}</span><br>
-            <span class="card-text">Display Size: </span><span class="text-muted"> ${phoneDetails.mainFeatures.displaySize ? phoneDetails.mainFeatures.displaySize : 'Not Available'}</span><br>
-            <span class="card-text">ChipSet: </span><span class="text-muted"> ${phoneDetails.mainFeatures.chipSet ? phoneDetails.mainFeatures.chipSet : 'Not Available'}</span><br>
-            <span class="card-text">Memory: </span><span class="text-muted"> ${phoneDetails.mainFeatures.memory ? phoneDetails.mainFeatures.memory : 'Not Available'}</span><br>
-           
-        </div>
-   </div>
-    `;
-    singleCard.appendChild(div);
+    //console.log(Object.keys(phoneDetails).length);
+
+    if (Object.keys(phoneDetails).length === 0) {
+        dynamicPropertyChange('block', true);
+    } else {
+
+        //get all value from sensors array...
+        const sensors = phoneDetails.mainFeatures.sensors.map(sensor => sensor);
+        //console.log(phoneDetails.others);
+        const othersValues = Object.values(phoneDetails.others);
+        //console.log(othersValues);
+
+        const singleCard = document.getElementById('single-card');
+        //clear previous single data ....
+        clearData('single-card');
+
+        const div = document.createElement('div');
+        div.className = "col-12";
+        div.innerHTML = `
+        <div class="card mb-5 shadow-lg p-3 mb-5 bg-body border-style">
+        <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;" alt="image Not Available">
+        <div class="card-body mx-auto">
+                <h3 class="card-title">${phoneDetails.name ? phoneDetails.name : 'Name Not Fixed'}</h3>
+                <span>Released Date:</span><span class="text-muted"> ${phoneDetails.releaseDate ? phoneDetails.releaseDate : 'Not Available'}</span><br>
+                <span>Main Features</span><br>
+                <span class="card-text">Storage: </span><span class="text-muted"> ${phoneDetails.mainFeatures.storage ? phoneDetails.mainFeatures.storage : 'Not Available'}</span><br>
+                <span class="card-text">Display Size: </span><span class="text-muted"> ${phoneDetails.mainFeatures.displaySize ? phoneDetails.mainFeatures.displaySize : 'Not Available'}</span><br>
+                <span class="card-text">ChipSet: </span><span class="text-muted"> ${phoneDetails.mainFeatures.chipSet ? phoneDetails.mainFeatures.chipSet : 'Not Available'}</span><br>
+                <span class="card-text">Memory: </span><span class="text-muted"> ${phoneDetails.mainFeatures.memory ? phoneDetails.mainFeatures.memory : 'Not Available'}</span><br>
+                <span class="card-text">Sensors: </span><span class="text-muted"> ${sensors ? sensors : 'Not Available'}</span><br>
+                <span class="card-text">Others: </span><span class="text-muted"> ${othersValues ? othersValues : 'Not Available'}</span><br>
+                
+            </div>
+       </div>
+        `;
+        singleCard.appendChild(div);
+    }
 
 }
