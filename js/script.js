@@ -100,5 +100,40 @@ const displayPhones = (phones) => {
 //2nd part start here...
 //see more details of phone by slug 
 const moreDetails = (phoneId) => {
-    console.log(phoneId);
+    // console.log(phoneId);
+    const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displaySinglePhone(data.data));
+}
+
+//display single phone details
+const displaySinglePhone = (phoneDetails) => {
+    console.log(phoneDetails.name);
+
+    const singleCard = document.getElementById('single-card');
+    const div = document.createElement('div');
+    div.className = "col-12";
+    div.innerHTML = `
+    <div class="card mb-5 shadow-lg p-3 mb-5 bg-body border-style">
+    <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;">
+    <div class="card-body mx-auto">
+            <h3 class="card-title">${phoneDetails.name}</h3>
+            <span>Released Date:</span><span class="text-muted"> Released 2021, September
+                24</span><br>
+            <span>Main Features</span><br>
+            <span class="card-text">Storage: </span><span class="text-muted"> 128GB/256GB/512GB
+                storage, no card slot</span><br>
+            <span class="card-text">Display Size: </span><span class="text-muted">5.4 inches, 71.9
+                cm2 (~85.1% screen-to-body ratio</span><br>
+            <span class="card-text">ChipSet: </span><span class="text-muted"> Apple A15 Bionic (5
+                nm)</span><br>
+            <span class="card-text">Memory: </span><span class="text-muted"> 128GB 4GB RAM, 256GB
+                4GB RAM, 512GB 4GB RAM</span><br>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+   </div>
+    `;
+    singleCard.appendChild(div);
+
 }
