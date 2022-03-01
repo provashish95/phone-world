@@ -69,10 +69,10 @@ const displayPhones = (phones) => {
             div.className = "col-12 col-md-4 col-lg-4 col-xl-4";
             div.innerHTML = `
             <div class="card text-center m-auto shadow-lg p-3 mb-5 bg-body border-style" style="width: 18rem;">
-               <img src="${phone.image}" class="img-fluid card-img-top" alt="...">
+               <img src="${phone.image}" class="img-fluid card-img-top" alt="Image not available">
                <div class="card-body">
-                <h5 class="card-title fw-bolder">${phone.phone_name}</h5>
-                <p class="card-text">Brand: ${phone.brand}</p>
+                <h5 class="card-title fw-bolder">${phone.phone_name ? phone.phone_name : 'Name Not Fixed'}</h5>
+                <p class="card-text">Brand: ${phone.brand ? phone.brand : 'Not Available'}</p>
                 <button onclick="moreDetails('${phone.slug}')" class="btn btn-outline-info">More Details</button>
                </div>
             </div>
@@ -100,7 +100,7 @@ const displayPhones = (phones) => {
 //2nd part start here...
 //see more details of phone by slug 
 const moreDetails = (phoneId) => {
-    // console.log(phoneId);
+    console.log(phoneId);
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(url)
         .then(res => res.json())
@@ -109,28 +109,23 @@ const moreDetails = (phoneId) => {
 
 //display single phone details
 const displaySinglePhone = (phoneDetails) => {
-    console.log(phoneDetails.name);
+    console.log(phoneDetails);
 
     const singleCard = document.getElementById('single-card');
     const div = document.createElement('div');
     div.className = "col-12";
     div.innerHTML = `
     <div class="card mb-5 shadow-lg p-3 mb-5 bg-body border-style">
-    <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;">
+    <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;" alt="image Not Available">
     <div class="card-body mx-auto">
-            <h3 class="card-title">${phoneDetails.name}</h3>
-            <span>Released Date:</span><span class="text-muted"> Released 2021, September
-                24</span><br>
+            <h3 class="card-title">${phoneDetails.name ? phoneDetails.name : 'Name Not Fixed'}</h3>
+            <span>Released Date:</span><span class="text-muted"> ${phoneDetails.releaseDate ? phoneDetails.releaseDate : 'Not Available'}</span><br>
             <span>Main Features</span><br>
-            <span class="card-text">Storage: </span><span class="text-muted"> 128GB/256GB/512GB
-                storage, no card slot</span><br>
-            <span class="card-text">Display Size: </span><span class="text-muted">5.4 inches, 71.9
-                cm2 (~85.1% screen-to-body ratio</span><br>
-            <span class="card-text">ChipSet: </span><span class="text-muted"> Apple A15 Bionic (5
-                nm)</span><br>
-            <span class="card-text">Memory: </span><span class="text-muted"> 128GB 4GB RAM, 256GB
-                4GB RAM, 512GB 4GB RAM</span><br>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <span class="card-text">Storage: </span><span class="text-muted"> ${phoneDetails.mainFeatures.storage ? phoneDetails.mainFeatures.storage : 'Not Available'}</span><br>
+            <span class="card-text">Display Size: </span><span class="text-muted"> ${phoneDetails.mainFeatures.displaySize ? phoneDetails.mainFeatures.displaySize : 'Not Available'}</span><br>
+            <span class="card-text">ChipSet: </span><span class="text-muted"> ${phoneDetails.mainFeatures.chipSet ? phoneDetails.mainFeatures.chipSet : 'Not Available'}</span><br>
+            <span class="card-text">Memory: </span><span class="text-muted"> ${phoneDetails.mainFeatures.memory ? phoneDetails.mainFeatures.memory : 'Not Available'}</span><br>
+           
         </div>
    </div>
     `;
