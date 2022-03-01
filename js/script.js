@@ -31,9 +31,8 @@ const searchBtn = () => {
     clearData('main-card');
     dynamicPropertyChange('fixed', false);
 
-    const singleCard = document.getElementById('single-card');
     //clear previous single data ....
-    singleCard.textContent = '';
+    clearData('single-card');
 
     //check input value is null or not
     if (inputValue == '') {
@@ -69,10 +68,7 @@ const displayPhones = (phones) => {
         toggleSpinner('none');
     } else {
         phones.slice(0, 20).forEach(phone => {
-            //console.log(phone.slug);
-            //console.log(phone.phone_name);
             const div = document.createElement('div');
-
             div.className = "col-12 col-md-4 col-lg-4 col-xl-4";
             div.innerHTML = `
             <div class="card text-center m-auto shadow-lg p-3 mb-5 bg-body border-style" style="width: 18rem;">
@@ -102,13 +98,9 @@ const displayPhones = (phones) => {
 }
 
 
-
-
 //2nd part start here...
 //see more details of phone by slug 
 const moreDetails = (phoneId) => {
-
-    //console.log(phoneId);
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(url)
         .then(res => res.json())
@@ -117,18 +109,10 @@ const moreDetails = (phoneId) => {
 
 //display single phone details
 const displaySinglePhone = (phoneDetails) => {
-
-    //console.log(Object.keys(phoneDetails).length);
-
+    // console.log(phoneDetails);
     if (Object.keys(phoneDetails).length === 0) {
         dynamicPropertyChange('block', true);
     } else {
-
-        //get all value from sensors array...
-        const sensors = phoneDetails.mainFeatures.sensors.map(sensor => sensor);
-        //console.log(phoneDetails.others);
-        const othersValues = Object.values(phoneDetails.others);
-        //console.log(othersValues);
 
         const singleCard = document.getElementById('single-card');
         //clear previous single data ....
@@ -139,21 +123,27 @@ const displaySinglePhone = (phoneDetails) => {
         div.innerHTML = `
         <div class="card mb-5 shadow-lg p-3 mb-5 bg-body border-style">
         <img src="${phoneDetails.image}" class="img-fluid card-img-top mx-auto"  style="width: 18rem;" alt="image Not Available">
-        <div class="card-body mx-auto">
+        <div class="card-body mx-auto card-width">
+
                 <h3 class="card-title">${phoneDetails.name ? phoneDetails.name : 'Name Not Fixed'}</h3>
                 <span>Released Date:</span><span class="text-muted"> ${phoneDetails.releaseDate ? phoneDetails.releaseDate : 'Not Available'}</span><br>
-                <span>Main Features</span><br>
-                <span class="card-text">Storage: </span><span class="text-muted"> ${phoneDetails.mainFeatures.storage ? phoneDetails.mainFeatures.storage : 'Not Available'}</span><br>
-                <span class="card-text">Display Size: </span><span class="text-muted"> ${phoneDetails.mainFeatures.displaySize ? phoneDetails.mainFeatures.displaySize : 'Not Available'}</span><br>
-                <span class="card-text">ChipSet: </span><span class="text-muted"> ${phoneDetails.mainFeatures.chipSet ? phoneDetails.mainFeatures.chipSet : 'Not Available'}</span><br>
-                <span class="card-text">Memory: </span><span class="text-muted"> ${phoneDetails.mainFeatures.memory ? phoneDetails.mainFeatures.memory : 'Not Available'}</span><br>
-                <span class="card-text">Sensors: </span><span class="text-muted"> ${sensors ? sensors : 'Not Available'}</span><br>
-                <span class="card-text">Others: </span><span class="text-muted"> ${othersValues ? othersValues : 'Not Available'}</span><br>
-                
+
+                <span class="card-text">Main Fetures, see the list below </span><br>
+                <span class="card-text">Storage: </span><span class="text-muted" > ${phoneDetails.mainFeatures && phoneDetails.mainFeatures.storage ? phoneDetails.mainFeatures.storage : 'Not Available'}</span><br>
+                <span class="card-text">Display Size: </span><span class="text-muted" > ${phoneDetails.mainFeatures && phoneDetails.mainFeatures.displaySize ? phoneDetails.mainFeatures.displaySize : 'Not Available'}</span><br>
+                <span class="card-text">ChipSet: </span><span class="text-muted " > ${phoneDetails.mainFeatures && phoneDetails.mainFeatures.chipSet ? phoneDetails.mainFeatures.chipSet : 'Not Available'}</span><br>
+                <span class="card-text">Memory: </span><span class="text-muted " > ${phoneDetails.mainFeatures && phoneDetails.mainFeatures.memory ? phoneDetails.mainFeatures.memory : 'Not Available'}</span><br>
+                <span class="card-text">Sensors: </span><span class="text-muted " > ${phoneDetails.mainFeatures && phoneDetails.mainFeatures.sensors ? phoneDetails.mainFeatures.sensors.map(sensor => sensor) : 'Not Available'}</span><br>
+                <span class="card-text">Other features, see the list below</span><br>
+                <span class="card-text">WLAN: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.WLAN ? phoneDetails.others.WLAN : 'Not Available'}</span><br>
+                <span class="card-text">Bluetooth: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.Bluetooth ? phoneDetails.others.Bluetooth : 'Not Available'}</span><br>
+                <span class="card-text">GPS: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.GPS ? phoneDetails.others.GPS : 'Not Available'}</span><br>
+                <span class="card-text">NFC: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.NFC ? phoneDetails.others.NFC : 'Not Available'}</span><br>
+                <span class="card-text">Radio: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.Radio ? phoneDetails.others.Radio : 'Not Available'}</span><br>
+                <span class="card-text">USB: </span><span class="text-muted"> ${phoneDetails.others && phoneDetails.others.USB ? phoneDetails.others.USB : 'Not Available'}</span>
             </div>
        </div>
         `;
         singleCard.appendChild(div);
     }
-
 }
