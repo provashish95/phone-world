@@ -14,10 +14,14 @@ const clearData = (id) => {
     mainCard.textContent = '';
     return;
 }
-
 //loading spinner ....
 const toggleSpinner = diplaySpiner => {
     document.getElementById('spinner').style.display = diplaySpiner;
+}
+//scroll to the specific element 
+function scrolldiv() {
+    const scroll = document.getElementById("single-card");
+    scroll.scrollIntoView();
 }
 
 
@@ -76,7 +80,7 @@ const displayPhones = (phones) => {
                <div class="card-body">
                 <h5 class="card-title fw-bolder">${phone.phone_name ? phone.phone_name : 'Name Not Fixed'}</h5>
                 <p class="card-text">Brand: ${phone.brand ? phone.brand : 'Not Available'}</p>
-                <button onclick="moreDetails('${phone.slug}')" class="btn btn-outline-info">More Details</button>
+                <button onclick="moreDetails('${phone.slug}'); scrolldiv();" class="btn btn-outline-info">More Details</button>
                </div>
             </div>
             
@@ -96,6 +100,9 @@ const displayPhones = (phones) => {
 
     }
 }
+
+
+
 
 
 //2nd part start here...
@@ -145,5 +152,6 @@ const displaySinglePhone = (phoneDetails) => {
        </div>
         `;
         singleCard.appendChild(div);
+
     }
 }
