@@ -30,9 +30,8 @@ const seeMoreData = () => {
     for (const card of cards) {
         card.style.display = 'block';
     }
+    document.getElementById('see-more-button').innerText = 'Closed';
 }
-
-
 
 //get api data here .........
 const searchBtn = () => {
@@ -61,9 +60,6 @@ const searchBtn = () => {
     input.value = '';
 }
 
-
-
-
 //make url dynamic by input value
 const loadPhones = searchPhones => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchPhones}`;
@@ -72,7 +68,6 @@ const loadPhones = searchPhones => {
         .then(data => displayPhones(data.data));
 
 }
-
 
 //display phones.....
 const displayPhones = (phones) => {
@@ -123,17 +118,14 @@ const displayPhones = (phones) => {
         const div = document.createElement('div');
         div.className = 'col-12 text-end mb-5';
         div.innerHTML = `
-        <button onclick="seeMoreData()" class="btn btn-outline-info">See more</button>
+        <button id="see-more-button" onclick="seeMoreData()" class="btn btn-outline-info">See more</button>
         `;
         mainCard.appendChild(div);
 
         toggleSpinner('none');
         dynamicPropertyChange('relative', false);
-
     }
-
 }
-
 
 //2nd part start here...
 //see more details of phone by slug 
@@ -182,6 +174,5 @@ const displaySinglePhone = (phoneDetails) => {
        </div>
         `;
         singleCard.appendChild(div);
-
     }
 }
