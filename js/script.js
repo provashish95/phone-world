@@ -24,6 +24,14 @@ function scrolldiv() {
     scroll.scrollIntoView();
 }
 
+//see more data .......
+const seeMoreData = () => {
+    const cards = document.getElementsByClassName('cards-display-style');
+    for (const card of cards) {
+        card.style.display = 'block';
+    }
+}
+
 
 
 //get api data here .........
@@ -53,17 +61,22 @@ const searchBtn = () => {
     input.value = '';
 }
 
+
+
+
 //make url dynamic by input value
 const loadPhones = searchPhones => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchPhones}`;
     fetch(url)
         .then(res => res.json())
         .then(data => displayPhones(data.data));
+
 }
+
 
 //display phones.....
 const displayPhones = (phones) => {
-    //console.log(phones.slice(0, 20));
+
     const mainCard = document.getElementById('main-card');
     clearData('main-card');
     //check array have items or not
@@ -88,10 +101,29 @@ const displayPhones = (phones) => {
             mainCard.appendChild(div);
         });
 
+
+        // set data after 20 ............
+        phones.slice(20).forEach(phone => {
+            const div = document.createElement('div');
+            div.className = "col-12 col-md-6 col-lg-4 col-xl-4 cards-display-style";
+            div.innerHTML = `
+            <div class="card text-center m-auto shadow-lg p-3 mb-5 bg-body border-style" style="width: 18rem;">
+               <img src="${phone.image}" class="img-fluid card-img-top" alt="Image not available">
+               <div class="card-body">
+                <h5 class="card-title fw-bolder">${phone.phone_name ? phone.phone_name : 'Name Not Fixed'}</h5>
+                <p class="card-text">Brand: ${phone.brand ? phone.brand : 'Not Available'}</p>
+                <button onclick="moreDetails('${phone.slug}'); scrolldiv();" class="btn btn-outline-info">More Details</button>
+               </div>
+            </div>
+            
+            `;
+            mainCard.appendChild(div);
+        });
+
         const div = document.createElement('div');
-        div.className = "col-12 text-end mb-5";
+        div.className = 'col-12 text-end mb-5';
         div.innerHTML = `
-        <a class="btn btn-outline-info">See more...</a>
+        <button onclick="seeMoreData()" class="btn btn-outline-info">See more</button>
         `;
         mainCard.appendChild(div);
 
@@ -99,10 +131,8 @@ const displayPhones = (phones) => {
         dynamicPropertyChange('relative', false);
 
     }
+
 }
-
-
-
 
 
 //2nd part start here...

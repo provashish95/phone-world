@@ -21,6 +21,11 @@ body {
   display: none; 
 } 
 
+ /* hide data style after 20...... */
+.cards-display-style{
+    display: none;
+}
+
 
 
 /* @media  query for single card text.. */
