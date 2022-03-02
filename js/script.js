@@ -118,7 +118,7 @@ const displayPhones = (phones) => {
         const div = document.createElement('div');
         div.className = 'col-12 text-end mb-5';
         div.innerHTML = `
-        <button id="see-more-button" onclick="seeMoreData()" class="btn btn-outline-info">See more</button>
+        <button id="see-more-button" onclick="seeMoreData()" class="btn btn-outline-info">Show All</button>
         `;
         mainCard.appendChild(div);
 
@@ -127,7 +127,7 @@ const displayPhones = (phones) => {
     }
 }
 
-//2nd part start here...
+
 //see more details of phone by slug 
 const moreDetails = (phoneId) => {
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
@@ -138,7 +138,7 @@ const moreDetails = (phoneId) => {
 
 //display single phone details
 const displaySinglePhone = (phoneDetails) => {
-    // console.log(phoneDetails);
+
     if (Object.keys(phoneDetails).length === 0) {
         dynamicPropertyChange('block', true);
     } else {
